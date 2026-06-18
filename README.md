@@ -25,13 +25,13 @@ I researched and developed this (low effort) MSX service that serves purely for 
 1. Create a [Stremio account](https://www.stremio.com/register)
 2. Install the [Media Station X from the LG app store](https://us.lgappstv.com/main/tvapp/detail?appId=464834)
 3. Launch the Media Station X application
-   ![MSX Start Menu](https://raw.githubusercontent.com/bartche/msx/main/imgs/msxmain.jpeg)
+   ![MSX Start Menu](https://raw.githubusercontent.com/xrexzerox/msx/main/imgs/msxmain.jpeg)
 5. Navigate to Settings → Validate Links → No
-   ![MSX Validade Links Menu](https://raw.githubusercontent.com/bartche/msx/main/imgs/validadelinks.jpeg)
+   ![MSX Validade Links Menu](https://raw.githubusercontent.com/xrexzerox/msx/main/imgs/validadelinks.jpeg)
 7. Navigate to Settings → Start Parameter → Setup
-   ![MSX Start Parameters](https://raw.githubusercontent.com/bartche/msx/main/imgs/startparam.jpeg)
+   ![MSX Start Parameters](https://raw.githubusercontent.com/xrexzerox/msx/main/imgs/startparam.jpeg)
 9. Set the security lock (for HTTPS mode) and enter:
-   ```bartche.github.io```
+   ```xrexzerox.github.io```
 10. Save it and you are done!
 
 ## Disclaimer
