@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express Send - Receipt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0052CC 0%, #0066FF 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0052CC;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .checkmark-circle {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            background: #0052CC;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 82, 204, 0.3);
+        }
+        
+        .recipient {
+            text-align: center;
+            margin: 40px 0 30px;
+        }
+        
+        .recipient-name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #0052CC;
+            margin-bottom: 10px;
+        }
+        
+        .phone {
+            font-size: 20px;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 5px;
+            background: #f5f5f5;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .method {
+            font-size: 14px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 25px 0;
+        }
+        
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            font-size: 16px;
+        }
+        
+        .row-label {
+            color: #003399;
+            font-weight: 500;
+        }
+        
+        .row-value {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .row.total {
+            padding: 20px 0;
+            font-size: 24px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .row.total .row-label {
+            font-size: 18px;
+        }
+        
+        .row.total .row-value {
+            font-size: 24px;
+            color: #0052CC;
+        }
+        
+        .reference {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .ref-left {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .ref-item {
+            color: #666;
+        }
+        
+        .ref-value {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .advertisement {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .ad-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ad-left {
+            background: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+        }
+        
+        .ad-icon {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+        
+        .ad-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .ad-desc {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .ad-button {
+            background: #FF3B47;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: auto;
+        }
+        
+        .ad-right {
+            background: #C8FF00;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ad-right::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+        
+        .ad-right-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .ad-right-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #222;
+        }
+        
+        .ad-right-desc {
+            font-size: 13px;
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .ad-tag {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkmark-circle">✓</div>
+        
+        <div class="header">
+            <button class="close-btn">✕</button>
+            <div class="title">Express Send</div>
+            <div style="width: 40px;"></div>
+        </div>
+        
+        <div class="recipient">
+            <div class="recipient-name">J.. C.</div>
+            <div class="phone">+63 991 339 8329</div>
+            <div class="method">Sent via GCash</div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="row">
+            <span class="row-label">Amount</span>
+            <span class="row-value">3,000.00</span>
+        </div>
+        
+        <div class="row total">
+            <div style="display: flex; justify-content: space-between;">
+                <span class="row-label">Total Amount Sent</span>
+                <span class="row-value">₱3,000.00</span>
+            </div>
+        </div>
+        
+        <div class="reference">
+            <div class="ref-left">
+                <div class="ref-item">
+                    <span>Ref No.</span>
+                    <div class="ref-value" id="refNo">8674 521 390461</div>
+                </div>
+                <div class="ref-item">
+                    <div id="timestamp" style="margin-top: 5px;">Jul 24, 2026 12:48 PM</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="advertisement">
+            <div class="ad-card ad-left">
+                <div>
+                    <div class="ad-icon" style="background: linear-gradient(135deg, #C8FF00 0%, #85E000 100%); width: 60px; height: 60px; margin: 0 auto; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 32px;">iD</div>
+                    <div class="ad-title">inDrive. Rides<br>with fair fares</div>
+                    <div class="ad-desc">像当地人一样出行。自主定价，随心挑选司机 — 费用透明，畅享本地出行。</div>
+                </div>
+                <button class="ad-button">Download</button>
+            </div>
+            
+            <div class="ad-card ad-right">
+                <div class="ad-right-content">
+                    <div class="ad-right-title">inDrive</div>
+                    <div class="ad-right-desc">沉浸式物游库律賓，感受本地生活</div>
+                    <button style="background: #333; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 600; font-size: 12px; cursor: pointer;">下載inDrive</button>
+                </div>
+                <div class="ad-tag" style="position: absolute; bottom: 10px; right: 10px;">AD</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Generate random reference number
+        function generateRefNo() {
+            const part1 = Math.floor(Math.random() * 9000) + 1000;
+            const part2 = Math.floor(Math.random() * 900) + 100;
+            const part3 = Math.floor(Math.random() * 900000) + 100000;
+            return `${part1} ${part2} ${part3}`;
+        }
+        
+        // Update reference number on load
+        document.getElementById('refNo').textContent = generateRefNo();
+        
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: undefined };
+            const formatted = new Intl.DateTimeFormat('en-US', options).format(now);
+            document.getElementById('timestamp').textContent = formatted;
+        }
+        updateTimestamp();
+        
+        // Close button functionality
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            if (confirm('Close this receipt?')) {
+                window.close();
+            }
+        });
+    </script>
+</body>
+</html>
